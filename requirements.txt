@@ -5,7 +5,8 @@ python-dotenv==1.0.1
 faiss-cpu==1.8.0.post1
 pandas==2.2.2
 langchain-community
-
+langchain-openai
+langchain-groq
 # python -m venv wisdom
 # .\wisdom\Scripts\Activate.ps1
 # Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
