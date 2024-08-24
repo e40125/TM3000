@@ -1,5 +1,5 @@
 import streamlit as st
-from config import OPENAI_API_KEY, GROQ_API_KEY
+from config import OPENAI_API_KEY, GROQ_API_KEY,LANGCHAIN_TRACING_V2,LANGCHAIN_API_KEY,LANGCHAIN_PROJECT
 from models import get_model
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
