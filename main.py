@@ -31,7 +31,7 @@ def main():
     with st.sidebar:
         st.title("Flex Chatbot")
         st.subheader('Models and Parameters')
-        model_name = st.selectbox('Choose a model', ['GPT', 'TM3000', 'Groq'], key='selected_model')
+        model_name = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000','Groq'], key='selected_model')
         temp = st.slider('temperature', min_value=0.01, max_value=1.0, value=0.5, step=0.01)
         max_len = st.slider('max_length', min_value=32, max_value=128, value=120, step=4)
         st.markdown('📖')
