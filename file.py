@@ -71,13 +71,13 @@ def generate_response(model,prompt):
     model.invoke(prompt)
 
 
-# Handle user input, you feel me?
+# Handle user input
 if user_input := st.chat_input("What's poppin'?"):
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.write(user_input)
     
-    # Get that AI response, motherfucker
+    # Get that AI response
     with st.chat_message("assistant"):
         response = llm.invoke(user_input)
         st.write(response.content)

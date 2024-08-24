@@ -6,7 +6,7 @@ try:
     from dotenv import load_dotenv
     load_dotenv(override=True)
 except ImportError:
-    pass  # .env not available? We keep this train rollin'
+    pass  # .env not available? fuck it we ball
 
 
 # Function to get them keys, handling both local and cloud setups
@@ -37,7 +37,7 @@ if not GROQ_API_KEY:
 # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 # if not OPENAI_API_KEY:
-#     raise ValueError("OPENAI_API_KEY not found in environment, bitch.")
+#     raise ValueError("OPENAI_API_KEY not found.")
 
 # import os
 # import streamlit as st
@@ -46,4 +46,4 @@ if not GROQ_API_KEY:
 # GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 
 # if not OPENAI_API_KEY:
-#     raise ValueError("OPENAI_API_KEY not found in secrets, you dumb fuck.")
+#     raise ValueError("OPENAI_API_KEY not found")
