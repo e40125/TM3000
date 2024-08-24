@@ -21,6 +21,7 @@ OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 GROQ_API_KEY = get_key("GROQ_API_KEY")
 LANGCHAIN_TRACING_V2=get_key("LANGCHAIN_TRACING_V2")
 LANGCHAIN_API_KEY=os.get_key("LANGCHAIN_API_KEY")
+LANGCHAIN_PROJECT=os.get_key("LANGCHAIN_PROJECT")
 # Check if we got the goods
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY missing. Where the fuck is it at?")
