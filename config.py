@@ -8,9 +8,14 @@ try:
 except ImportError:
     pass  # .env not available? We keep this train rollin'
 
-# Function to get them keys, prioritizing Streamlit secrets
+
+# Function to get them keys, handling both local and cloud setups
 def get_key(key_name):
-    return st.secrets.get(key_name) or os.getenv(key_name)
+    try:
+        return st.secrets[key_name]
+    except FileNotFoundError:
+        # If we can't find the secrets file, we're probably local
+        return os.getenv(key_name)
 
 OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 GROQ_API_KEY = get_key("GROQ_API_KEY")
@@ -21,7 +26,6 @@ if not OPENAI_API_KEY:
 
 if not GROQ_API_KEY:
     raise ValueError("GROQ_API_KEY MIA. Get your shit straight!")
-
 
 # import os
 # from dotenv import load_dotenv
