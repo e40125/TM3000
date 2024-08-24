@@ -6,29 +6,53 @@ from langchain_community.chat_models import ChatOllama
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv(override=True)
+
 os.environ['OPENAI_API_KEY']=os.getenv("OPENAI_API_KEY")
 
+if not (os.environ['OPENAI_API_KEY']):
+    st.warning("OPEN_API_KEY not found.")
+    st.stop()
+
+
+
 # UI
-st.set_page_config(page_title="Llama 3.1")
+st.set_page_config(page_title="TM3000")
 with st.sidebar:
     st.title("Chatbot")
     st.subheader('Models and Parameters')
-    selected_model = st.sidebar.selectbox('Choose a model', ['Llama3.1', 'GPT'], key='selected_model')
+    selected_model = st.sidebar.selectbox('Choose a model', ['GPT', 'TM3000'], key='selected_model')
     temperature = st.sidebar.slider('temperature', min_value=0.01, max_value=1.0, value=0.5, step=0.01)
-    max_length = st.sidebar.slider('max_length', min_value=32, max_value=128, value=120, step=8)
-    st.markdown('📖 Learn how to build this app in this [blog](https://blog.streamlit.io/how-to-build-a-llama-2-chatbot/)!')
+    max_length = st.sidebar.slider('max_length', min_value=32, max_value=128, value=120, step=4)
+    st.markdown('📖')
 
-
-    if selected_model == 'Llama3.1':
-        llm = ChatOllama(model="llama3.1", temperature=temperature)
-    elif selected_model == 'GPT':
+def model_initialization():
+    if selected_model == 'GPT':
         llm = ChatOpenAI(
                 model="gpt-4o-mini",
                 temperature= temperature,
                 max_tokens=50,
-)
+        )
+    elif selected_model == 'TM3000':
+        llm = ChatOpenAI(
+                model="ft:gpt-4o-mini-2024-07-18:personal::9zIKV308",
+                temperature = temperature,
+                max_tokens=max_length
+        )
+    return llm
+llm = model_initialization()
+if selected_model == 'GPT':
+    st.session_state.llm = ChatOpenAI(
+                model="gpt-4o-mini",
+                temperature= temperature,
+                max_tokens=50,)
 
+if selected_model == 'TM3000':
+    st.session_state.llm = ChatOpenAI(
+                model="ft:gpt-4o-mini-2024-07-18:personal::9zIKV308",
+                temperature = temperature,
+                max_tokens=max_length
+        )
 
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():
