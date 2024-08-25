@@ -6,7 +6,7 @@ def get_model(model_name, temp, max_len):
     model_config = {
         'GPT': {
             'class': ChatOpenAI,
-            'params': {"model": "gpt-4o-mini", "temperature": temp, "max_tokens": 50}
+            'params': {"model": "gpt-4o-mini", "temperature": temp, "max_tokens": max_len}
         },
         'TM3000': {
             'class': ChatOpenAI,
