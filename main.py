@@ -47,22 +47,26 @@ def create_chain(bot, use_history):
     return chain
 
 def chat_interface():
-    model_name, temp, max_len, use_history = render_sidebar()
+    model_name, temp, max_len, use_history, model_changed = render_sidebar()
     
     try:
         bot = ChatbotFactory.create_bot(model_name, temp, max_len)
         chain = create_chain(bot, use_history)
     except Exception as e:
-        st.error(f"Shit's fucked up: {str(e)}")
+        st.error(f"Error: {str(e)}")
         return
 
     conversation = ConversationManager()
+
+    # Initialize chat with the bot's intro message or update if model changed
+    if not st.session_state.messages or model_changed:
+        conversation.initialize_chat(bot.intro_message)
 
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.write(message["content"])
             
-    if user_input := st.chat_input("Spit your game:"):
+    if user_input := st.chat_input("Enter your message:"):
         conversation.add_message("user", user_input)
         with st.chat_message("user"):
             st.write(user_input)
@@ -77,10 +81,10 @@ def chat_interface():
                 st.write(response)
                 conversation.add_message("assistant", response)
             except Exception as e:
-                st.error(f"Shit hit the fan: {str(e)}")
+                st.error(f"Error: {str(e)}")
     
     st.sidebar.button('Clear Chat History', on_click=conversation.clear_history)
-
+    
 def main():
     if "show_chat" not in st.session_state:
         st.session_state.show_chat = False

@@ -5,7 +5,10 @@ class ConversationManager:
     def __init__(self, max_history=6):
         self.max_history = max_history
         if "messages" not in st.session_state:
-            st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
+            st.session_state.messages = []
+
+    def initialize_chat(self, intro_message):
+        st.session_state.messages = [{"role": "assistant", "content": intro_message}]
 
     def add_message(self, role, content):
         st.session_state.messages.append({"role": role, "content": content})
@@ -16,7 +19,7 @@ class ConversationManager:
         return st.session_state.messages[1:]  # Exclude the initial message
 
     def clear_history(self):
-        st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
+        st.session_state.messages = []
 
 class ChatbotException(Exception):
     pass
@@ -32,8 +35,15 @@ def handle_chatbot_error(func):
 def render_sidebar():
     with st.sidebar:
         st.title("Flex Chatbot")
-        model_name = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000', 'Groq'])
+        current_model = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000', 'Groq'], key='model_select')
         temp = st.slider('temperature', 0.01, 1.0, 0.5, 0.01)
         max_len = st.slider('max_length', 32, 256, 128, 4)
         use_history = st.toggle("Use Chat History", True)
-    return model_name, temp, max_len, use_history
+    
+    # Check if model has changed
+    model_changed = False
+    if 'current_model' not in st.session_state or st.session_state.current_model != current_model:
+        model_changed = True
+        st.session_state.current_model = current_model
+
+    return current_model, temp, max_len, use_history, model_changed
