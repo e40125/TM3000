@@ -1,5 +1,5 @@
 import streamlit as st
-from config import OPENAI_API_KEY, GROQ_API_KEY #,LANGCHAIN_TRACING_V2,LANGCHAIN_API_KEY,LANGCHAIN_PROJECT
+from config import OPENAI_API_KEY, GROQ_API_KEY ,LANGCHAIN_TRACING_V2,LANGCHAIN_API_KEY,LANGCHAIN_PROJECT
 from models import get_model
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
@@ -21,29 +21,8 @@ def create_chain(llm, system_message, use_history, max_len):
             ("human", "{input}"),
         ])
     chain = prompt | llm | StrOutputParser()
+    print(f"def create chain prompt:{prompt} \n\n llm:{llm} \n\n chain: {chain} \n\n\n")
     return chain
-# # no chat history vanilla
-# def create_chain(llm, system_message,max_len):
-#     default_system_message= f"You are a helpful AI assistant. Keep response tokens under {max_len}"
-#     prompt = ChatPromptTemplate.from_messages([
-#         ("system", system_message if system_message else default_system_message),
-#         ("human", "{input}"),
-#     ])
-#     chain = prompt | llm | StrOutputParser()
-#     return chain
-# # with chat history vanilla
-# def create_chain(llm, system_message):
-#     prompt = ChatPromptTemplate.from_messages([
-#         ("system", system_message if system_message else "You are a helpful AI assistant."),
-#         MessagesPlaceholder(variable_name="chat_history"),
-#         ("human", "{input}"),
-#     ])
-#     chain = prompt | llm | StrOutputParser()
-#     return chain
-
-## when calling chain.invoke:
-# chat_history = st.session_state.messages[-6:]  # Last 3 exchanges
-# response = chain.invoke({"input": user_input, "chat_history": chat_history})
 
 def main():
     with st.sidebar:
@@ -67,7 +46,7 @@ def main():
 
     if "messages" not in st.session_state:
         st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-    
+    #show back and forth chat
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.write(message["content"])
@@ -88,19 +67,11 @@ def main():
                 st.session_state.messages.append({"role": "assistant", "content": response})
             except Exception as e:
                 st.error(f"Shit hit the fan: {str(e)}")
-    # no chat history vanilla version
-    # if user_input := st.chat_input("Spit your game:"):
-    #     st.session_state.messages.append({"role": "user", "content": user_input})
-    #     with st.chat_message("user"):
-    #         st.write(user_input)
-        
-    #     with st.chat_message("assistant"):
-    #         try:
-    #             response = chain.invoke({"input": user_input})
-    #             st.write(response)
-    #             st.session_state.messages.append({"role": "assistant", "content": response})
-    #         except Exception as e:
-    #             st.error(f"Shit hit the fan: {str(e)}")
+        try:
+            print(f"session_state messages: {st.session_state.messages}\n{chat_history}")
+        except:
+            print('no chat history') 
+  
     def clear_chat_history():
         st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
     st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
