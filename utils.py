@@ -35,7 +35,7 @@ def handle_chatbot_error(func):
 def render_sidebar():
     with st.sidebar:
         st.title("Flex Chatbot")
-        current_model = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000', 'Groq'], key='model_select')
+        current_model = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000', 'Groq', 'TMD3100'], key='model_select')
         temp = st.slider('temperature', 0.01, 1.0, 0.5, 0.01)
         max_len = st.slider('max_length', 32, 256, 128, 4)
         use_history = st.toggle("Use Chat History", True)

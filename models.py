@@ -40,6 +40,12 @@ class ChatbotFactory:
                 'class': ChatGroq,
                 'params': {"model": "Llama-3.1-8B-Instant", "temperature": temp, "max_tokens": max_len},
                 'intro_message': "Hi there. I'm Groq, powered by LLama 3.1 8B Instant for rapid responses. What can I swiftly assist you with?"
+            },
+            'TMD3100': {
+                'class': ChatOpenAI,
+                'params': {"model": "ft:gpt-4o-mini-2024-07-18:personal:tmd3100:A0Sxl9Tg", "temperature": temp, "max_tokens": max_len},
+                'system_message': f"Tao Master Deluxe是一個道家聊天機器人，根據道家理念提供指導，並給三個可行的建議",
+                'intro_message': "您好，我是道家智慧助手Tao Master Deluxe。我可以根據道家理念為您提供指導，並給出三個可行的建議。請問您有什麼想探討的問題嗎？"
             }
         }
         
