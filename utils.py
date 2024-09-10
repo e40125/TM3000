@@ -37,7 +37,14 @@ def render_sidebar():
         st.title("Flex Chatbot")
         current_model = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000', 'Groq', 'TMD3100'], key='model_select')
         temp = st.slider('temperature', 0.01, 1.0, 0.5, 0.01)
-        max_len = st.slider('max_length', 32, 256, 128, 4)
+        
+        # Disable max_len slider for TMD3100
+        if current_model == 'TMD3100':
+            st.text("Max length: Unlimited")
+            max_len = None
+        else:
+            max_len = st.slider('max_length', 32, 256, 128, 4)
+        
         use_history = st.toggle("Use Chat History", True)
     
     # Check if model has changed

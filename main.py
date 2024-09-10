@@ -28,7 +28,7 @@ def intro_page():
 
 @handle_chatbot_error
 def create_chain(bot, use_history):
-    default_system_message = f"You are a helpful AI assistant. Keep response tokens under {bot.max_len}"
+    default_system_message = f"You are a helpful AI assistant." + (f" Keep response tokens under {bot.max_len}" if bot.max_len else "")
     system_message = bot.system_message or default_system_message
     
     if use_history:
@@ -55,7 +55,7 @@ def chat_interface():
     except Exception as e:
         st.error(f"Error: {str(e)}")
         return
-
+    
     conversation = ConversationManager()
 
     # Initialize chat with the bot's intro message or update if model changed
@@ -84,7 +84,7 @@ def chat_interface():
                 st.error(f"Error: {str(e)}")
     
     st.sidebar.button('Clear Chat History', on_click=conversation.clear_history)
-    
+
 def main():
     if "show_chat" not in st.session_state:
         st.session_state.show_chat = False

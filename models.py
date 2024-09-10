@@ -43,16 +43,19 @@ class ChatbotFactory:
             },
             'TMD3100': {
                 'class': ChatOpenAI,
-                'params': {"model": "ft:gpt-4o-mini-2024-07-18:personal:tmd3100:A0Sxl9Tg", "temperature": temp, "max_tokens": max_len},
-                'system_message': f"Tao Master Deluxe是一個道家聊天機器人，根據道家理念提供指導，並給三個可行的建議",
+                'params': {"model": "ft:gpt-4o-mini-2024-07-18:personal:tmd3100:A0Sxl9Tg", "temperature": temp},
+                'system_message': "Tao Master Deluxe是一個道家聊天機器人，根據道家理念提供指導，並給三個可行的建議",
                 'intro_message': "您好，我是道家智慧助手Tao Master Deluxe。我可以根據道家理念為您提供指導，並給出三個可行的建議。請問您有什麼想探討的問題嗎？"
             }
         }
         
         config = model_config[model_name]
-        model = config['class'](**config['params'])
+        params = config['params']
+        if max_len is not None and 'max_tokens' in params:
+            params['max_tokens'] = max_len
+        model = config['class'](**params)
         return Chatbot(model_name, model, temp, max_len, config.get('system_message'), config['intro_message'])
-
+    
 def get_model(model_name, temp, max_len):
     bot = ChatbotFactory.create_bot(model_name, temp, max_len)
     return bot.model, bot.system_message
