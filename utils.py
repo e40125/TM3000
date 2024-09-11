@@ -1,5 +1,6 @@
 # utils.py
 import streamlit as st
+from models import BOT_CONFIGS
 
 class ConversationManager:
     def __init__(self, max_history=6):
@@ -35,22 +36,37 @@ def handle_chatbot_error(func):
 def render_sidebar():
     with st.sidebar:
         st.title("Flex Chatbot")
-        current_model = st.selectbox('Choose a model', ['GPT', 'TM3000', 'GS6000', 'Groq', 'TMD3100'], key='model_select')
-        temp = st.slider('temperature', 0.01, 1.0, 0.5, 0.01)
+        current_model = st.selectbox('Choose a model', list(BOT_CONFIGS.keys()), key='model_select')
+        config = BOT_CONFIGS[current_model]
         
-        # Disable max_len slider for TMD3100
-        if current_model == 'TMD3100':
+        if isinstance(config['params']['temperature'], dict):
+            temp_config = config['params']['temperature']
+            temp = st.slider('Temperature', 
+                             min_value=temp_config['min'], 
+                             max_value=temp_config['max'], 
+                             value=temp_config['default'], 
+                             step=temp_config['step'])
+        else:
+            temp = config['params']['temperature']
+            st.text(f"Temperature: {temp}")
+        
+        if isinstance(config['params']['max_tokens'], dict):
+            max_tokens_config = config['params']['max_tokens']
+            max_len = st.slider('Max Length', 
+                                min_value=max_tokens_config['min'], 
+                                max_value=max_tokens_config['max'], 
+                                value=max_tokens_config['default'], 
+                                step=max_tokens_config['step'])
+        elif config['params']['max_tokens'] is None:
             st.text("Max length: Unlimited")
             max_len = None
         else:
-            max_len = st.slider('max_length', 32, 256, 128, 4)
+            max_len = config['params']['max_tokens']
+            st.text(f"Max length: {max_len}")
         
         use_history = st.toggle("Use Chat History", True)
     
-    # Check if model has changed
-    model_changed = False
-    if 'current_model' not in st.session_state or st.session_state.current_model != current_model:
-        model_changed = True
-        st.session_state.current_model = current_model
+    model_changed = 'current_model' not in st.session_state or st.session_state.current_model != current_model
+    st.session_state.current_model = current_model
 
     return current_model, temp, max_len, use_history, model_changed
