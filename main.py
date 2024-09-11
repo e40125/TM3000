@@ -73,11 +73,12 @@ def chat_interface():
         
         with st.chat_message("assistant"):
             try:
-                if use_history:
-                    chat_history = conversation.get_history()
-                    response = chain.invoke({"input": user_input, "chat_history": chat_history})
-                else:
-                    response = chain.invoke({"input": user_input})
+                with st.spinner(bot.spinner_message):
+                    if use_history:
+                        chat_history = conversation.get_history()
+                        response = chain.invoke({"input": user_input, "chat_history": chat_history})
+                    else:
+                        response = chain.invoke({"input": user_input})
                 st.write(response)
                 conversation.add_message("assistant", response)
             except Exception as e:
