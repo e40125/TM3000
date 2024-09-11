@@ -60,13 +60,14 @@ BOT_CONFIGS = {
 }
 
 class Chatbot:
-    def __init__(self, name, model, temp, max_len, system_message=None, intro_message=None):
+    def __init__(self, name, model, temp, max_len, system_message=None, intro_message=None, spinner_message=None):
         self.name = name
         self.model = model
         self.temp = temp
         self.max_len = max_len
         self.system_message = system_message
         self.intro_message = intro_message
+        self.spinner_message = spinner_message
 
     def get_response(self, input, history=None):
         return self.model.predict(input)
@@ -86,7 +87,7 @@ class ChatbotFactory:
             params['max_tokens'] = None
 
         model = config['class'](**params)
-        return Chatbot(model_name, model, temp, max_len, config.get('system_message'), config['intro_message'])
+        return Chatbot(model_name, model, temp, max_len, config.get('system_message'), config['intro_message'], config['spinner_message'])
 
 def get_model(model_name, temp, max_len):
     bot = ChatbotFactory.create_bot(model_name, temp, max_len)

@@ -1,7 +1,7 @@
 # main.py
 import streamlit as st
 from config import OPENAI_API_KEY, GROQ_API_KEY, LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY, LANGCHAIN_PROJECT
-from models import ChatbotFactory
+from models import ChatbotFactory, BOT_CONFIGS
 from utils import ConversationManager, handle_chatbot_error, render_sidebar
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
@@ -10,7 +10,6 @@ st.set_page_config(page_title="Chatbot Playground")
 
 def intro_page():
     st.title("Welcome to the Chatbot Playground")
-    
     st.write("This versatile chatbot playground offers multiple AI language models to explore.")
     
     st.markdown("""
@@ -30,6 +29,7 @@ def intro_page():
 def create_chain(bot, use_history):
     default_system_message = f"You are a helpful AI assistant." + (f" Keep response tokens under {bot.max_len}" if bot.max_len else "")
     system_message = bot.system_message or default_system_message
+    
     
     if use_history:
         prompt = ChatPromptTemplate.from_messages([

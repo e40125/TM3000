@@ -1,4 +1,6 @@
 .streamlit/
+comments.py
+pages_placeholder/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
