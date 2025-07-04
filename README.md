@@ -44,11 +44,24 @@ A modular chatbot platform built with **Streamlit** and **LangChain**, enabling 
 
 ## 📸 Screenshots
 
-![Welcome Screen](./screenshots/tm3000_welcome.png)
+### 🏠 Welcome Screen
 
-![Model Selector](./screenshots/tm3000_sidebar.png)
+![Welcome Screen](./screenshots/tm3000_welcome.png)  
+*A clean welcome page introduces the platform’s capabilities and features.*
 
-![Chat Example - Tao Master Deluxe 3100](./screenshots/tm3000_tao_chat.png)
+---
+
+### 🔧 Sidebar UI for Model Control
+
+![Model Selector](./screenshots/tm3000_sidebar.png)  
+*An intuitive sidebar lets users select models and fine-tune parameters like temperature and max tokens.*
+
+---
+
+### 🧘 Chat Example: Tao Master Deluxe 3100
+
+![Chat Example](./screenshots/tm3000_taochat.png)  
+*An AI assistant that offers wisdom from Daoist philosophy, demonstrating the app’s unique personality-based architecture.*
 
 ---
 
