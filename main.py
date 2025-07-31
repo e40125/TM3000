@@ -1,6 +1,6 @@
 # main.py
 import streamlit as st
-from config import OPENAI_API_KEY, GROQ_API_KEY, LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY, LANGCHAIN_PROJECT
+from config import OPENAI_API_KEY, GROQ_API_KEY, LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY, LANGCHAIN_PROJECT, LANGCHAIN_ENDPOINT
 from models import ChatbotFactory, BOT_CONFIGS
 from utils import ConversationManager, handle_chatbot_error, render_sidebar
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder

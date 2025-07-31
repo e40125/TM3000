@@ -1,6 +1,17 @@
 # utils.py
 import streamlit as st
 from models import BOT_CONFIGS
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("debug.log"),
+        logging.StreamHandler()
+    ]
+)
+
 
 class ConversationManager:
     def __init__(self, max_history=6):
@@ -30,7 +41,8 @@ def handle_chatbot_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            raise ChatbotException(f"Shit's fucked up: {str(e)}")
+            logging.error(f"An error occurred in {func.__name__}: {e}", exc_info=True)
+            raise ChatbotException(f"An unexpected error occurred: {str(e)}")
     return wrapper
 
 def render_sidebar():

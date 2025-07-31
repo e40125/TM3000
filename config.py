@@ -7,15 +7,25 @@ def get_key(key_name):
     try:
         from dotenv import load_dotenv
         load_dotenv(override=True)
-        return os.getenv(key_name)
+        # Load the key from .env
+        key = os.getenv(key_name)
+        if key:
+            # Set it as an environment variable for the current process
+            os.environ[key_name] = key
+        return key
     except FileNotFoundError:
-        return st.secrets[key_name]
+        # Fallback to Streamlit secrets if .env is not found
+        key = st.secrets.get(key_name)
+        if key:
+            os.environ[key_name] = key
+        return key
 
 OPENAI_API_KEY = get_key("OPENAI_API_KEY")
 GROQ_API_KEY = get_key("GROQ_API_KEY")
-LANGCHAIN_TRACING_V2=get_key("LANGCHAIN_TRACING_V2")
-LANGCHAIN_API_KEY=get_key("LANGCHAIN_API_KEY")
-LANGCHAIN_PROJECT=get_key("LANGCHAIN_PROJECT")
+LANGCHAIN_TRACING_V2 = get_key("LANGSMITH_TRACING")
+LANGCHAIN_ENDPOINT = get_key("LANGSMITH_ENDPOINT")
+LANGCHAIN_API_KEY = get_key("LANGSMITH_API_KEY")
+LANGCHAIN_PROJECT = get_key("LANGSMITH_PROJECT")
 
 # import streamlit as st
 
